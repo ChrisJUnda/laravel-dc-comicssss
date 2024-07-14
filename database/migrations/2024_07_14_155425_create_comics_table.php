@@ -12,17 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comics', function (Blueprint $table) {
-            $table->id();
-            $table->string('title', 160);
-            $table->longText('description')->nullable();
-            $table->longText('thumb')->nullable();
-            $table->string('price')->nullable();
-            $table->string('series', 70)->nullable();
-            $table->string('sale_date')->nullable();
-            $table->string('type', 20)->nullable();
-            $table->string('artists')->nullable();
-            $table->string('writers')->nullable();
-            $table->timestamps();
+            $table->string('title', 100);
+            $table->text('description');
+            $table->text('thumb', 100);
+            $table->decimal('price', 3, 2);
+            $table->string('series', 50);
+            $table->date('sale_date');
+            $table->string('type', 50);
+            $table->json('artists');
+            $table->json('writers');
         });
     }
 
@@ -31,6 +29,16 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('comics');
+        Schema::table('comics', function (Blueprint $table) {
+            $table->dropColumn('title');
+            $table->dropColumn('description');
+            $table->dropColumn('thumb');
+            $table->dropColumn('price');
+            $table->dropColumn('series');
+            $table->dropColumn('sale_date');
+            $table->dropColumn('type');
+            $table->dropColumn('artists');
+            $table->dropColumn('writers');
+        });
     }
 };
